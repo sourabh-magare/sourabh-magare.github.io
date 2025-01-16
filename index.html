@@ -1,3 +1,9 @@
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,91 +11,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astrophysics Personal Page</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         body {
-            margin: 0;
             font-family: 'Roboto', sans-serif;
             background: linear-gradient(to bottom, #0b0d17, #1c1f33);
             color: white;
+            margin: 0;
             line-height: 1.6;
         }
-        header {
-            background: #12162d;
-            padding: 1rem 0;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            color: #7dbfff;
-        }
-        nav {
-            margin: 1rem 0;
-        }
-        nav a {
-            color: #7dbfff;
-            text-decoration: none;
-            margin: 0 1rem;
-            font-weight: 700;
-        }
-        nav a:hover {
-            color: #fff;
-        }
-        section {
-            padding: 2rem;
-            text-align: center;
-        }
-        footer {
-            background: #12162d;
-            padding: 1rem;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #7dbfff;
-        }
-        .stars {
+        .bg-stars {
+            background: url('https://source.unsplash.com/1600x900/?stars,galaxy') no-repeat center center/cover;
+            opacity: 0.1;
             position: absolute;
             width: 100%;
             height: 100%;
-            background: url('https://source.unsplash.com/1600x900/?stars,galaxy') no-repeat center center/cover;
-            opacity: 0.1;
             z-index: -1;
+        }
+        .navbar-dark .navbar-brand {
+            color: #7dbfff;
+        }
+        footer {
+            background-color: #12162d;
+            color: #7dbfff;
         }
     </style>
 </head>
 <body>
-    <div class="stars"></div>
-    <header>
-        <h1>Welcome to My Astrophysics Page</h1>
-        <nav>
-            <a href="#about">About Me</a>
-            <a href="#research">Research</a>
-            <a href="#gallery">Gallery</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
+    <div class="bg-stars"></div>
 
-    <section id="about">
-        <h2>About Me</h2>
-        <p>Hello! I'm passionate about astrophysics and the mysteries of the universe. This website showcases my work, research, and interests.</p>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+        <div class="container">
+            <a class="navbar-brand" href="#">Astrophysics</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#about">About Me</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#research">Research</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-dark text-light text-center py-5">
+        <div class="container">
+            <h1 class="display-4">Welcome to My Astrophysics Page</h1>
+            <p class="lead">Exploring the cosmos, one star at a time.</p>
+        </div>
     </section>
 
-    <section id="research">
-        <h2>Research</h2>
-        <p>I explore topics like stellar evolution, binary systems, and black holes. My goal is to unravel the secrets of the cosmos.</p>
+    <!-- About Section -->
+    <section id="about" class="py-5">
+        <div class="container text-center">
+            <h2>About Me</h2>
+            <p>Hello! I'm passionate about astrophysics and the mysteries of the universe. This website showcases my work, research, and interests.</p>
+        </div>
     </section>
 
-    <section id="gallery">
-        <h2>Gallery</h2>
-        <p>Coming soon: A collection of my favorite cosmic images and simulations.</p>
+    <!-- Research Section -->
+    <section id="research" class="bg-light py-5">
+        <div class="container text-center">
+            <h2>Research</h2>
+            <p>I explore topics like stellar evolution, binary systems, and black holes. My goal is to unravel the secrets of the cosmos.</p>
+        </div>
     </section>
 
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>Feel free to reach out via email at <a href="mailto:your-email@example.com" style="color: #7dbfff;">your-email@example.com</a>.</p>
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-5">
+        <div class="container text-center">
+            <h2>Gallery</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="https://source.unsplash.com/400x300/?nebula" alt="Nebula" class="img-fluid rounded">
+                </div>
+                <div class="col-md-4">
+                    <img src="https://source.unsplash.com/400x300/?stars" alt="Stars" class="img-fluid rounded">
+                </div>
+                <div class="col-md-4">
+                    <img src="https://source.unsplash.com/400x300/?galaxy" alt="Galaxy" class="img-fluid rounded">
+                </div>
+            </div>
+        </div>
     </section>
 
-    <footer>
+    <!-- Contact Section -->
+    <section id="contact" class="bg-dark text-light py-5">
+        <div class="container text-center">
+            <h2>Contact</h2>
+            <p>Feel free to reach out via email at <a href="mailto:your-email@example.com" class="text-info">your-email@example.com</a>.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center py-3">
         <p>&copy; 2025 Your Name | Designed with 🌌 in mind</p>
     </footer>
 </body>
