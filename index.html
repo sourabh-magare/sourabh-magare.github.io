@@ -3,10 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to My Website</title>
+    <title>Astrophysics Personal Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, #0b0d17, #1c1f33);
+            color: white;
+            line-height: 1.6;
+        }
+        header {
+            background: #12162d;
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            color: #7dbfff;
+        }
+        nav {
+            margin: 1rem 0;
+        }
+        nav a {
+            color: #7dbfff;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: 700;
+        }
+        nav a:hover {
+            color: #fff;
+        }
+        section {
+            padding: 2rem;
+            text-align: center;
+        }
+        footer {
+            background: #12162d;
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #7dbfff;
+        }
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://source.unsplash.com/1600x900/?stars,galaxy') no-repeat center center/cover;
+            opacity: 0.1;
+            z-index: -1;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>Welcome to my GitHub Pages site!</p>
+    <div class="stars"></div>
+    <header>
+        <h1>Welcome to My Astrophysics Page</h1>
+        <nav>
+            <a href="#about">About Me</a>
+            <a href="#research">Research</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <section id="about">
+        <h2>About Me</h2>
+        <p>Hello! I'm passionate about astrophysics and the mysteries of the universe. This website showcases my work, research, and interests.</p>
+    </section>
+
+    <section id="research">
+        <h2>Research</h2>
+        <p>I explore topics like stellar evolution, binary systems, and black holes. My goal is to unravel the secrets of the cosmos.</p>
+    </section>
+
+    <section id="gallery">
+        <h2>Gallery</h2>
+        <p>Coming soon: A collection of my favorite cosmic images and simulations.</p>
+    </section>
+
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Feel free to reach out via email at <a href="mailto:your-email@example.com" style="color: #7dbfff;">your-email@example.com</a>.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Your Name | Designed with 🌌 in mind</p>
+    </footer>
 </body>
 </html>
