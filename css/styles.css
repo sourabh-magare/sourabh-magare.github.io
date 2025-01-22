@@ -11077,3 +11077,7 @@ html {
 .publication a:hover {
   text-decoration: underline;
 }
+
+.underline {
+  text-decoration: underline;
+}
