@@ -11044,3 +11044,36 @@ html {
 .copyright {
   background-color: #1a252f;
 }
+
+.publications {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.publication {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.publication h2 {
+  margin-top: 0;
+  color: #4a90e2;
+  font-size: 1.2rem;
+}
+
+.publication p {
+  margin: 0.5rem 0;
+}
+
+.publication a {
+  color: #4a90e2;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.publication a:hover {
+  text-decoration: underline;
+}
