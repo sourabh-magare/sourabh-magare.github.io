@@ -354,10 +354,10 @@ footer p{font-size:0.75rem;color:var(--dim);letter-spacing:0.05em}
   resize();
   function draw(t){
     const W=c.offsetWidth,H=c.offsetHeight;ctx.clearRect(0,0,W*2,H*2);
-    ctx.strokeStyle='rgba(110,181,255,0.35)';ctx.lineWidth=1.5;ctx.beginPath();
+    ctx.strokeStyle='rgba(204,230,255,0.6)';ctx.lineWidth=1.5;ctx.beginPath();
     for(let x=0;x<W;x++){const p=x/W,ch=Math.pow(p,2.5),fr=2+ch*30,am=(15+ch*40)*Math.exp(-Math.pow(p-0.85,2)*80),y=H/2+Math.sin(fr*p*Math.PI*2+t*0.002)*am;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}
     ctx.stroke();
-    ctx.strokeStyle='rgba(180,142,255,0.2)';ctx.beginPath();
+    ctx.strokeStyle='rgba(230,242,255,0.4)';ctx.beginPath();
     for(let x=0;x<W;x++){const p=x/W,ch=Math.pow(p,2.5),fr=2+ch*30,am=(15+ch*40)*Math.exp(-Math.pow(p-0.85,2)*80),y=H/2+Math.cos(fr*p*Math.PI*2+t*0.002)*am*0.6;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}
     ctx.stroke();requestAnimationFrame(draw);
   }
