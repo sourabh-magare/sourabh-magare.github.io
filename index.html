@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sourabh Magare — Gravitational Wave Astrophysicist</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#06060a;--bg2:#0a0a12;--text:#e8e6e1;--dim:#7a7872;
+  --accent:#6eb5ff;--accent2:#b48eff;--accent3:#ff6eb5;
+  --glow:rgba(110,181,255,0.08);
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(110,181,255,0.25);color:#fff}
+#cosmos{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.6}
+
+.cursor-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;position:fixed;top:0;left:0;z-index:9999;pointer-events:none;transition:transform .15s ease;mix-blend-mode:difference}
+.cursor-ring{width:36px;height:36px;border:1px solid rgba(110,181,255,0.4);border-radius:50%;position:fixed;top:0;left:0;z-index:9998;pointer-events:none;transition:width .3s,height .3s,border-color .3s}
+@media(pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
+
+nav{position:fixed;top:0;left:0;width:100%;z-index:100;padding:1.5rem 3rem;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(12px);background:rgba(6,6,10,0.6);border-bottom:1px solid rgba(255,255,255,0.04);transition:transform .4s ease}
+nav.hidden{transform:translateY(-100%)}
+.nav-logo{font-family:var(--serif);font-size:1.3rem;color:var(--text);text-decoration:none;letter-spacing:-0.02em}
+.nav-logo span{color:var(--accent);font-style:italic}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{color:var(--dim);text-decoration:none;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent);transition:width .3s}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{width:100%}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:200;background:none;border:none}
+.hamburger span{display:block;width:24px;height:2px;background:var(--text);transition:all .3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{position:fixed;top:0;right:-100%;width:70%;height:100vh;background:var(--bg2);z-index:150;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2rem;transition:right .4s cubic-bezier(.65,0,.35,1)}
+.mobile-menu.open{right:0}
+.mobile-menu a{color:var(--text);text-decoration:none;font-family:var(--serif);font-size:1.8rem;opacity:0.7;transition:opacity .3s}
+.mobile-menu a:hover{opacity:1}
+
+/* ===== HERO ===== */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;z-index:1;padding:7rem 2rem 4rem}
+
+/* Avatar with gravitational lensing */
+.avatar-container{position:relative;width:200px;height:200px;margin-bottom:2.5rem;opacity:0;animation:fadeUp .8s ease forwards .2s}
+.avatar-lensing{position:absolute;inset:-28px;border-radius:50%;border:1px solid rgba(110,181,255,0.15);animation:lensRing 8s linear infinite}
+.avatar-lensing::before{content:'';position:absolute;inset:-12px;border-radius:50%;border:1px solid rgba(180,142,255,0.1);animation:lensRing 12s linear infinite reverse}
+.avatar-lensing::after{content:'';position:absolute;inset:8px;border-radius:50%;border:1px dashed rgba(110,181,255,0.08);animation:lensRing 6s linear infinite}
+.einstein-ring{position:absolute;inset:-20px;border-radius:50%;overflow:hidden;pointer-events:none}
+.einstein-ring .arc{position:absolute;width:100%;height:100%;border-radius:50%;border:2px solid transparent}
+.einstein-ring .arc:nth-child(1){border-top-color:rgba(110,181,255,0.3);border-right-color:rgba(110,181,255,0.1);animation:lensRing 10s linear infinite}
+.einstein-ring .arc:nth-child(2){border-bottom-color:rgba(180,142,255,0.2);border-left-color:rgba(180,142,255,0.08);animation:lensRing 14s linear infinite reverse}
+.einstein-ring .arc:nth-child(3){inset:6px;border-right-color:rgba(255,110,181,0.12);border-top-color:rgba(255,110,181,0.06);animation:lensRing 7s linear infinite}
+.caustic{position:absolute;width:6px;height:6px;border-radius:50%;filter:blur(2px)}
+.caustic:nth-child(1){top:-8px;left:50%;background:var(--accent);animation:causticFloat 4s ease-in-out infinite;opacity:0.5}
+.caustic:nth-child(2){bottom:-5px;right:20%;background:var(--accent2);animation:causticFloat 5s ease-in-out infinite 1s;opacity:0.4}
+.caustic:nth-child(3){top:30%;left:-10px;background:var(--accent);animation:causticFloat 6s ease-in-out infinite 2s;opacity:0.35}
+.caustic:nth-child(4){top:25%;right:-8px;background:var(--accent3);animation:causticFloat 4.5s ease-in-out infinite 0.5s;opacity:0.3}
+.avatar-photo{width:200px;height:200px;border-radius:50%;overflow:hidden;position:relative;z-index:2;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);display:flex;align-items:center;justify-content:center;box-shadow:0 0 60px rgba(110,181,255,0.08),0 0 120px rgba(110,181,255,0.04)}
+.avatar-photo img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.avatar-placeholder{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.avatar-placeholder .initials{font-family:var(--serif);font-size:3.5rem;color:var(--accent);opacity:0.6;letter-spacing:-0.02em}
+
+.hero-overline{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--accent);margin-bottom:1.8rem;opacity:0;animation:fadeUp .8s ease forwards .4s}
+.hero h1{font-family:var(--serif);font-size:clamp(2.8rem,7vw,6.5rem);line-height:1.05;letter-spacing:-0.03em;font-weight:400;max-width:900px;opacity:0;animation:fadeUp .8s ease forwards .55s}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:clamp(0.95rem,1.5vw,1.15rem);color:var(--dim);max-width:560px;margin-top:1.8rem;line-height:1.7;opacity:0;animation:fadeUp .8s ease forwards .7s}
+.hero-cta{margin-top:2.8rem;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp .8s ease forwards .85s}
+.btn{padding:0.85rem 2.2rem;border-radius:100px;font-size:0.85rem;font-weight:500;letter-spacing:0.04em;text-decoration:none;transition:all .3s;cursor:pointer;border:none;font-family:var(--sans)}
+.btn-primary{background:var(--accent);color:#06060a}
+.btn-primary:hover{background:#8ec8ff;transform:translateY(-2px);box-shadow:0 8px 30px rgba(110,181,255,0.25)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.12)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.scroll-indicator{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.5rem;opacity:0;animation:fadeUp .8s ease forwards 1.1s}
+.scroll-indicator span{font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim)}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollPulse 2s ease infinite}
+
+section{position:relative;z-index:1;padding:7rem 2rem}
+.section-container{max-width:1100px;margin:0 auto}
+.section-label{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:0.8rem}
+.section-label::before{content:'';width:30px;height:1px;background:var(--accent)}
+.section-title{font-family:var(--serif);font-size:clamp(2rem,4vw,3.2rem);line-height:1.15;letter-spacing:-0.02em;font-weight:400;margin-bottom:3rem}
+
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.about-text p{color:var(--dim);margin-bottom:1.2rem;font-size:0.95rem;line-height:1.8}
+.about-text p strong{color:var(--text);font-weight:500}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:2rem;padding:2.5rem;border-radius:16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);backdrop-filter:blur(8px)}
+.stat{text-align:center}
+.stat-number{font-family:var(--serif);font-size:2.6rem;color:var(--accent);line-height:1;letter-spacing:-0.02em}
+.stat-label{font-size:0.75rem;color:var(--dim);text-transform:uppercase;letter-spacing:0.1em;margin-top:0.5rem}
+
+.research-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.research-card{padding:2.2rem;border-radius:14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);transition:all .4s;position:relative;overflow:hidden}
+.research-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.research-card:hover{border-color:rgba(110,181,255,0.15);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.3)}
+.research-card:hover::before{transform:scaleX(1)}
+.card-icon{width:44px;height:44px;border-radius:10px;background:rgba(110,181,255,0.08);border:1px solid rgba(110,181,255,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:1.4rem;font-size:1.2rem}
+.research-card h3{font-family:var(--serif);font-size:1.25rem;margin-bottom:0.8rem;font-weight:400}
+.research-card p{font-size:0.85rem;color:var(--dim);line-height:1.7}
+
+.pub-list{display:flex;flex-direction:column;gap:1rem}
+.pub-item{padding:1.8rem 2rem;border-radius:12px;background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.04);display:grid;grid-template-columns:auto 1fr auto;gap:1.5rem;align-items:center;transition:all .3s}
+.pub-item:hover{border-color:rgba(110,181,255,0.12);background:rgba(255,255,255,0.03)}
+.pub-year{font-family:var(--mono);font-size:0.75rem;color:var(--accent);writing-mode:vertical-rl;text-orientation:mixed;letter-spacing:0.1em}
+.pub-content h4{font-family:var(--serif);font-size:1.1rem;font-weight:400;margin-bottom:0.4rem;line-height:1.4}
+.pub-content .pub-authors{font-size:0.8rem;color:var(--dim)}
+.pub-content .pub-journal{font-size:0.78rem;color:var(--accent);font-family:var(--mono);margin-top:0.3rem}
+.pub-link{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;color:var(--dim);text-decoration:none;font-size:0.8rem;transition:all .3s}
+.pub-link:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ===== SKILLS — LENSING ORBITAL SYSTEM ===== */
+.skills-section{padding:7rem 2rem;position:relative;z-index:1;overflow:hidden}
+.skills-container{max-width:1100px;margin:0 auto}
+.skills-layout{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-top:1rem}
+.lens-system{position:relative;width:100%;aspect-ratio:1;max-width:520px;margin:0 auto}
+#lensCanvas{width:100%;height:100%}
+.lens-label{text-align:center;margin-top:1rem;font-family:var(--mono);font-size:0.6rem;color:var(--dim);letter-spacing:0.15em;text-transform:uppercase;opacity:0.5}
+.skill-groups{display:flex;flex-direction:column;gap:1.5rem}
+.skill-group{padding:1.5rem 1.8rem;border-radius:14px;background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.04);transition:all .4s ease;position:relative;overflow:hidden}
+.skill-group::before{content:'';position:absolute;left:0;top:0;width:3px;height:100%;transition:height .4s ease}
+.skill-group:nth-child(1)::before{background:var(--accent)}
+.skill-group:nth-child(2)::before{background:var(--accent2)}
+.skill-group:nth-child(3)::before{background:var(--accent3)}
+.skill-group:nth-child(4)::before{background:#6effa8}
+.skill-group:hover{border-color:rgba(110,181,255,0.1);background:rgba(255,255,255,0.025);transform:translateX(4px)}
+.skill-group-header{display:flex;align-items:center;gap:0.7rem;margin-bottom:0.8rem}
+.skill-group-icon{font-size:1rem;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.04)}
+.skill-group-title{font-family:var(--serif);font-size:1.05rem;font-weight:400}
+.skill-tags{display:flex;flex-wrap:wrap;gap:0.4rem}
+.skill-tag{padding:0.32rem 0.8rem;border-radius:100px;font-size:0.68rem;font-family:var(--mono);letter-spacing:0.02em;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);color:var(--dim);transition:all .4s ease;cursor:default}
+.skill-group:nth-child(1) .skill-tag:hover{border-color:rgba(110,181,255,0.3);color:var(--accent);box-shadow:0 0 12px rgba(110,181,255,0.08)}
+.skill-group:nth-child(2) .skill-tag:hover{border-color:rgba(180,142,255,0.3);color:var(--accent2);box-shadow:0 0 12px rgba(180,142,255,0.08)}
+.skill-group:nth-child(3) .skill-tag:hover{border-color:rgba(255,110,181,0.3);color:var(--accent3);box-shadow:0 0 12px rgba(255,110,181,0.08)}
+.skill-group:nth-child(4) .skill-tag:hover{border-color:rgba(110,255,168,0.3);color:#6effa8;box-shadow:0 0 12px rgba(110,255,168,0.08)}
+
+.wave-section{padding:5rem 2rem;position:relative;z-index:1;display:flex;justify-content:center}
+.wave-canvas{width:100%;max-width:1100px;height:120px;opacity:0.4}
+
+.contact-section{text-align:center;padding-bottom:5rem}
+.contact-links{display:flex;justify-content:center;gap:1.5rem;margin-top:2.5rem;flex-wrap:wrap}
+.contact-link{padding:0.9rem 2rem;border-radius:100px;font-size:0.82rem;font-weight:500;letter-spacing:0.04em;text-decoration:none;color:var(--text);border:1px solid rgba(255,255,255,0.08);transition:all .3s;display:flex;align-items:center;gap:0.6rem;font-family:var(--sans)}
+.contact-link:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.contact-link svg{width:16px;height:16px}
+
+footer{text-align:center;padding:3rem 2rem;border-top:1px solid rgba(255,255,255,0.04);position:relative;z-index:1}
+footer p{font-size:0.75rem;color:var(--dim);letter-spacing:0.05em}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scrollPulse{0%,100%{opacity:0.3;transform:scaleY(0.6)}50%{opacity:1;transform:scaleY(1)}}
+@keyframes lensRing{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes causticFloat{0%,100%{transform:translate(0,0) scale(1);opacity:0.3}50%{transform:translate(3px,-4px) scale(1.5);opacity:0.7}}
+.reveal{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.25,.46,.45,.94)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:900px){.skills-layout{grid-template-columns:1fr;gap:2.5rem}.lens-system{max-width:340px}}
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}.nav-links{display:none}.hamburger{display:flex}
+  .hero{padding:8rem 1.5rem 4rem}
+  .avatar-container{width:160px;height:160px}.avatar-photo{width:160px;height:160px}
+  .avatar-placeholder .initials{font-size:2.8rem}
+  .about-grid{grid-template-columns:1fr;gap:2.5rem}
+  .pub-item{grid-template-columns:1fr;gap:0.8rem}.pub-year{writing-mode:horizontal-tb}.pub-link{display:none}
+  section,.skills-section{padding:4rem 1.5rem}
+  .research-cards{grid-template-columns:1fr}
+  .skill-group{padding:1.2rem 1.4rem}
+}
+</style>
+</head>
+<body>
+
+<canvas id="cosmos"></canvas>
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<nav>
+  <a href="#" class="nav-logo">S<span>.</span> Magare</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu">
+  <a href="#about">About</a><a href="#research">Research</a><a href="#publications">Publications</a><a href="#skills">Skills</a><a href="#contact">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="avatar-container">
+    <div class="avatar-lensing"></div>
+    <div class="einstein-ring"><div class="arc"></div><div class="arc"></div><div class="arc"></div></div>
+    <div class="caustic"></div><div class="caustic"></div><div class="caustic"></div><div class="caustic"></div>
+    <div class="avatar-photo">
+      <!--
+        ===== ADD YOUR PHOTO =====
+        Replace the placeholder div below with:
+        <img src="your-photo.jpg" alt="Sourabh Magare">
+      -->
+      <div class="avatar-placeholder">
+        <span class="initials">SM</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-overline">PhD Candidate · IUCAA, Pune</div>
+  <h1>Listening to the <em>fabric</em> of spacetime</h1>
+  <p class="hero-sub">I'm Sourabh Magare — a gravitational wave astrophysicist working at the intersection of lensing, multi-messenger astronomy, and machine learning.</p>
+  <div class="hero-cta">
+    <a href="#research" class="btn btn-primary">Explore Research</a>
+    <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+  </div>
+  <div class="scroll-indicator"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-container reveal">
+    <div class="section-label">About</div>
+    <div class="section-title">Decoding the universe's<br>deepest signals</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm a <strong>PhD candidate at the Inter-University Centre for Astronomy and Astrophysics (IUCAA)</strong>, Pune, India, expecting to graduate in August 2026. My research sits at the crossroads of <strong>gravitational wave physics</strong>, <strong>gravitational lensing</strong>, and <strong>multi-messenger astronomy</strong>.</p>
+        <p>As an active member of the <strong>LIGO Scientific Collaboration's rapid response team</strong>, I develop novel pipelines — including <strong>SLICK</strong> (Strong Lensing Identification of Candidates Kindred) — that use deep learning to identify strongly lensed gravitational wave pairs in real-time detector data. SLICK is currently integrated into the LVK O4b analysis pipeline.</p>
+        <p>Beyond detection, I work on <strong>kilonova observability</strong> from neutron star–black hole mergers, forecasting <strong>massive black hole binaries</strong> with LISA using the NINJA cosmological simulations, and developing physics-inspired graph neural networks for lensing classification.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat"><div class="stat-number">5+</div><div class="stat-label">Publications</div></div>
+        <div class="stat"><div class="stat-number">O4b</div><div class="stat-label">LVK Run</div></div>
+        <div class="stat"><div class="stat-number">SLICK</div><div class="stat-label">Pipeline</div></div>
+        <div class="stat"><div class="stat-number">ML</div><div class="stat-label">& Deep Learning</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-section"><canvas class="wave-canvas" id="gwWave"></canvas></div>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="section-container reveal">
+    <div class="section-label">Research</div>
+    <div class="section-title">Probing gravity at<br>every scale</div>
+    <div class="research-cards">
+      <div class="research-card"><div class="card-icon">🌊</div><h3>Gravitational Wave Lensing</h3><p>Developing SLICK — a neural network pipeline to identify strongly lensed gravitational wave pairs. Exploring Bayesian inference with GOLUM and hanabi, wave optics signatures from intermediate-mass lenses, and lensing-enhanced early warning systems for EM follow-up.</p></div>
+      <div class="research-card"><div class="card-icon">💥</div><h3>Multi-Messenger Astronomy</h3><p>Modeling kilonova light curves from NSBH mergers using NMMA and MOSFiT frameworks. Investigating electromagnetic counterpart observability across LSST bands and developing strategies for rapid follow-up of gravitational wave events.</p></div>
+      <div class="research-card"><div class="card-icon">🕳️</div><h3>Massive Black Hole Binaries</h3><p>Forecasting LISA-detectable massive black hole binary mergers using the NINJA cosmological simulation suite. Characterizing merger rates, mass distributions, and multi-band gravitational wave detection prospects.</p></div>
+      <div class="research-card"><div class="card-icon">🧠</div><h3>Machine Learning in Astrophysics</h3><p>Building physics-inspired spatiotemporal graph neural networks (LensedGW-STGNN) for pairwise lensing detection. Applying deep learning architectures as fast first-pass filters for gravitational wave data analysis pipelines.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="section-container reveal">
+    <div class="section-label">Publications</div>
+    <div class="section-title">Selected works</div>
+    <div class="pub-list">
+      <div class="pub-item"><div class="pub-year">2023</div><div class="pub-content"><h4>Lensing-enhanced early warning for EM counterparts of gravitational wave events</h4><div class="pub-authors">Magare, S. et al.</div><div class="pub-journal">ApJL · 2023</div></div><a href="#" class="pub-link" title="View paper">↗</a></div>
+      <div class="pub-item"><div class="pub-year">2024</div><div class="pub-content"><h4>SLICK: Strong Lensing Identification of Candidates Kindred in gravitational wave data</h4><div class="pub-authors">Magare, S. et al.</div><div class="pub-journal">In preparation / LVK Internal</div></div><a href="#" class="pub-link" title="View paper">↗</a></div>
+      <div class="pub-item"><div class="pub-year">2024</div><div class="pub-content"><h4>LISA-detectable massive black hole binaries from the NINJA cosmological simulations</h4><div class="pub-authors">Magare, S. et al.</div><div class="pub-journal">Under review</div></div><a href="#" class="pub-link" title="View paper">↗</a></div>
+    </div>
+    <p style="color:var(--dim);font-size:0.82rem;margin-top:2rem;text-align:center;font-style:italic">
+      Full publication list available on <a href="#" style="color:var(--accent);text-decoration:underline">ADS</a> and <a href="#" style="color:var(--accent);text-decoration:underline">Google Scholar</a>.
+    </p>
+  </div>
+</section>
+
+<!-- ===== SKILLS — GRAVITATIONAL LENSING ===== -->
+<section id="skills" class="skills-section">
+  <div class="skills-container reveal">
+    <div class="section-label">Skills & Tools</div>
+    <div class="section-title">Orbital toolkit</div>
+    <div class="skills-layout">
+      <div class="lens-system">
+        <canvas id="lensCanvas"></canvas>
+        <div class="lens-label">interactive · hover to perturb the lens</div>
+      </div>
+      <div class="skill-groups">
+        <div class="skill-group">
+          <div class="skill-group-header"><div class="skill-group-icon">🔭</div><div class="skill-group-title">GW & Astro Pipelines</div></div>
+          <div class="skill-tags"><span class="skill-tag">Bilby</span><span class="skill-tag">PyCBC</span><span class="skill-tag">LALSuite</span><span class="skill-tag">GWpy</span><span class="skill-tag">NMMA</span><span class="skill-tag">GOLUM</span><span class="skill-tag">Astropy</span><span class="skill-tag">SLICK</span></div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-header"><div class="skill-group-icon">🧠</div><div class="skill-group-title">Machine Learning</div></div>
+          <div class="skill-tags"><span class="skill-tag">PyTorch</span><span class="skill-tag">TensorFlow</span><span class="skill-tag">JAX</span><span class="skill-tag">Scikit-learn</span><span class="skill-tag">GNNs</span><span class="skill-tag">CNNs</span><span class="skill-tag">SVD Surrogates</span></div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-header"><div class="skill-group-icon">📐</div><div class="skill-group-title">Scientific Computing</div></div>
+          <div class="skill-tags"><span class="skill-tag">Python</span><span class="skill-tag">NumPy</span><span class="skill-tag">SciPy</span><span class="skill-tag">Matplotlib</span><span class="skill-tag">Bayesian Inference</span><span class="skill-tag">MCMC</span><span class="skill-tag">Ray Tracing</span></div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-header"><div class="skill-group-icon">⚙️</div><div class="skill-group-title">Dev & Infrastructure</div></div>
+          <div class="skill-tags"><span class="skill-tag">Linux / HPC</span><span class="skill-tag">Git / GitHub</span><span class="skill-tag">LaTeX</span><span class="skill-tag">Conda</span><span class="skill-tag">Bash</span><span class="skill-tag">SSH / SLURM</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="section-container reveal">
+    <div class="section-label" style="justify-content:center">Contact</div>
+    <div class="section-title" style="text-align:center">Let's connect</div>
+    <p style="color:var(--dim);max-width:480px;margin:0 auto 1rem;font-size:0.95rem">Open to postdoctoral opportunities, collaborations, and conversations about gravitational waves, lensing, and the future of multi-messenger astronomy.</p>
+    <div class="contact-links">
+      <a href="mailto:sourabh@iucaa.in" class="contact-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg>Email</a>
+      <a href="#" class="contact-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</a>
+      <a href="#" class="contact-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 4L12 13 2 4"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>Scholar</a>
+      <a href="#" class="contact-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>ORCID</a>
+    </div>
+  </div>
+</section>
+
+<footer><p>&copy; 2026 Sourabh Magare · Built with curiosity and caffeine</p></footer>
+
+<script>
+// ===== STAR FIELD =====
+(function(){
+  const c=document.getElementById('cosmos'),ctx=c.getContext('2d');
+  let w,h,stars=[];
+  function resize(){w=c.width=window.innerWidth;h=c.height=window.innerHeight}
+  function init(){stars=[];for(let i=0;i<200;i++)stars.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.2+0.2,a:Math.random()*0.6+0.1,s:Math.random()*0.0003+0.0001,p:Math.random()*Math.PI*2})}
+  function draw(t){
+    ctx.clearRect(0,0,w,h);
+    const g1=ctx.createRadialGradient(w*0.3,h*0.4,0,w*0.3,h*0.4,w*0.5);
+    g1.addColorStop(0,'rgba(110,181,255,0.012)');g1.addColorStop(1,'transparent');
+    ctx.fillStyle=g1;ctx.fillRect(0,0,w,h);
+    const g2=ctx.createRadialGradient(w*0.7,h*0.6,0,w*0.7,h*0.6,w*0.4);
+    g2.addColorStop(0,'rgba(180,142,255,0.008)');g2.addColorStop(1,'transparent');
+    ctx.fillStyle=g2;ctx.fillRect(0,0,w,h);
+    stars.forEach(s=>{const f=Math.sin(t*s.s*1000+s.p)*0.3+0.7;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(230,228,220,${s.a*f})`;ctx.fill()});
+    requestAnimationFrame(draw);
+  }
+  resize();init();draw(0);
+  window.addEventListener('resize',()=>{resize();init()});
+})();
+
+// ===== GW CHIRP WAVE =====
+(function(){
+  const c=document.getElementById('gwWave');if(!c)return;
+  const ctx=c.getContext('2d');
+  function resize(){c.width=c.offsetWidth*2;c.height=c.offsetHeight*2;ctx.scale(2,2)}
+  resize();
+  function draw(t){
+    const W=c.offsetWidth,H=c.offsetHeight;ctx.clearRect(0,0,W*2,H*2);
+    ctx.strokeStyle='rgba(110,181,255,0.35)';ctx.lineWidth=1.5;ctx.beginPath();
+    for(let x=0;x<W;x++){const p=x/W,ch=Math.pow(p,2.5),fr=2+ch*30,am=(15+ch*40)*Math.exp(-Math.pow(p-0.85,2)*80),y=H/2+Math.sin(fr*p*Math.PI*2+t*0.002)*am;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}
+    ctx.stroke();
+    ctx.strokeStyle='rgba(180,142,255,0.2)';ctx.beginPath();
+    for(let x=0;x<W;x++){const p=x/W,ch=Math.pow(p,2.5),fr=2+ch*30,am=(15+ch*40)*Math.exp(-Math.pow(p-0.85,2)*80),y=H/2+Math.cos(fr*p*Math.PI*2+t*0.002)*am*0.6;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}
+    ctx.stroke();requestAnimationFrame(draw);
+  }
+  draw(0);window.addEventListener('resize',resize);
+})();
+
+// ===== GRAVITATIONAL LENSING ORBITAL CANVAS =====
+(function(){
+  const c=document.getElementById('lensCanvas');if(!c)return;
+  const ctx=c.getContext('2d');
+  let W,H,cx,cy,mouse={x:null,y:null},dpr=window.devicePixelRatio||1;
+
+  function resize(){
+    const rect=c.parentElement.getBoundingClientRect();
+    W=rect.width;H=rect.height;
+    c.width=W*dpr;c.height=H*dpr;
+    c.style.width=W+'px';c.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    cx=W/2;cy=H/2;
+  }
+  resize();
+
+  const skills=[
+    {label:'Python',orbit:0.18,speed:0.4,color:'#6eb5ff',size:5},
+    {label:'PyTorch',orbit:0.22,speed:0.55,color:'#b48eff',size:4.5},
+    {label:'Bilby',orbit:0.28,speed:0.35,color:'#6eb5ff',size:4},
+    {label:'NMMA',orbit:0.28,speed:0.6,color:'#ff6eb5',size:3.5},
+    {label:'GWpy',orbit:0.33,speed:0.45,color:'#6effa8',size:3.5},
+    {label:'LALSuite',orbit:0.33,speed:0.28,color:'#6eb5ff',size:4},
+    {label:'TensorFlow',orbit:0.38,speed:0.5,color:'#b48eff',size:4},
+    {label:'JAX',orbit:0.38,speed:0.32,color:'#ff6eb5',size:3.5},
+    {label:'GOLUM',orbit:0.42,speed:0.4,color:'#6eb5ff',size:3.5},
+    {label:'NumPy',orbit:0.42,speed:0.55,color:'#6effa8',size:3},
+    {label:'SciPy',orbit:0.46,speed:0.38,color:'#6effa8',size:3},
+    {label:'MCMC',orbit:0.46,speed:0.5,color:'#b48eff',size:3.5},
+    {label:'GNN',orbit:0.15,speed:0.65,color:'#b48eff',size:5.5},
+    {label:'SLICK',orbit:0.12,speed:0.8,color:'#ff6eb5',size:6},
+  ];
+  skills.forEach((s,i)=>{s.phase=i*0.47+Math.random()*0.5;s.tilt=0.15+Math.random()*0.35});
+
+  c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top});
+  c.addEventListener('mouseleave',()=>{mouse.x=null;mouse.y=null});
+
+  function lensDistort(x,y){
+    if(mouse.x===null)return{x,y};
+    const dx=x-mouse.x,dy=y-mouse.y,dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<5)return{x,y};
+    const factor=80/(dist+30);
+    return{x:x+dx*factor*0.06,y:y+dy*factor*0.06};
+  }
+
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    const time=t*0.001,R=Math.min(W,H)*0.48;
+
+    // Orbital ellipses
+    [0.12,0.15,0.18,0.22,0.28,0.33,0.38,0.42,0.46].forEach(o=>{
+      const r=R*o/0.46;
+      ctx.beginPath();ctx.ellipse(cx,cy,r,r*0.6,0.2,0,Math.PI*2);
+      ctx.strokeStyle='rgba(110,181,255,0.04)';ctx.lineWidth=0.5;ctx.stroke();
+    });
+
+    // Central glow
+    const cg=ctx.createRadialGradient(cx,cy,0,cx,cy,R*0.18);
+    cg.addColorStop(0,'rgba(110,181,255,0.08)');cg.addColorStop(0.5,'rgba(180,142,255,0.03)');cg.addColorStop(1,'transparent');
+    ctx.fillStyle=cg;ctx.fillRect(0,0,W,H);
+    ctx.beginPath();ctx.arc(cx,cy,3,0,Math.PI*2);ctx.fillStyle='rgba(110,181,255,0.5)';ctx.fill();
+    ctx.beginPath();ctx.arc(cx,cy,1.5,0,Math.PI*2);ctx.fillStyle='#6eb5ff';ctx.fill();
+
+    // Skill nodes
+    skills.forEach(s=>{
+      const r=R*s.orbit/0.46,angle=time*s.speed+s.phase;
+      let x=cx+Math.cos(angle)*r,y=cy+Math.sin(angle)*r*0.55+Math.sin(angle*0.3)*r*s.tilt*0.15;
+      const d=lensDistort(x,y);x=d.x;y=d.y;
+
+      // Trail
+      for(let i=1;i<=6;i++){
+        const ta=angle-i*0.04;
+        let tx=cx+Math.cos(ta)*r,ty=cy+Math.sin(ta)*r*0.55+Math.sin(ta*0.3)*r*s.tilt*0.15;
+        const td=lensDistort(tx,ty);
+        ctx.globalAlpha=0.1-i*0.015;
+        ctx.beginPath();ctx.arc(td.x,td.y,s.size*(1-i*0.12),0,Math.PI*2);
+        ctx.fillStyle=s.color;ctx.fill();
+      }
+      ctx.globalAlpha=1;
+
+      // Glow
+      ctx.beginPath();ctx.arc(x,y,s.size*3,0,Math.PI*2);
+      const glow=ctx.createRadialGradient(x,y,0,x,y,s.size*3);
+      glow.addColorStop(0,s.color+'30');glow.addColorStop(1,'transparent');
+      ctx.fillStyle=glow;ctx.fill();
+
+      // Dot
+      ctx.beginPath();ctx.arc(x,y,s.size,0,Math.PI*2);ctx.fillStyle=s.color;ctx.fill();
+
+      // Label
+      ctx.font='500 9px "JetBrains Mono",monospace';
+      ctx.fillStyle='rgba(232,230,225,0.45)';ctx.textAlign='center';
+      ctx.fillText(s.label,x,y-s.size-6);
+    });
+
+    // Animated Einstein rings
+    ctx.beginPath();ctx.arc(cx,cy,R*0.1,0,Math.PI*2);
+    ctx.strokeStyle='rgba(110,181,255,0.06)';ctx.lineWidth=1;
+    ctx.setLineDash([3,6]);ctx.lineDashOffset=-time*15;ctx.stroke();ctx.setLineDash([]);
+
+    ctx.beginPath();ctx.arc(cx,cy,R*0.07,0,Math.PI*2);
+    ctx.strokeStyle='rgba(180,142,255,0.05)';ctx.lineWidth=0.8;
+    ctx.setLineDash([2,8]);ctx.lineDashOffset=time*10;ctx.stroke();ctx.setLineDash([]);
+
+    requestAnimationFrame(draw);
+  }
+  draw(0);window.addEventListener('resize',resize);
+})();
+
+// ===== CURSOR =====
+(function(){
+  const dot=document.querySelector('.cursor-dot'),ring=document.querySelector('.cursor-ring');
+  if(!dot||!ring)return;
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+  function loop(){
+    rx+=(mx-rx)*0.15;ry+=(my-ry)*0.15;
+    dot.style.transform=`translate(${mx-4}px,${my-4}px)`;
+    ring.style.transform=`translate(${rx-18}px,${ry-18}px)`;
+    requestAnimationFrame(loop);
+  }
+  loop();
+  document.querySelectorAll('a,.btn,.research-card,.pub-item,.skill-tag,.contact-link,.hamburger,.skill-group').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ring.style.width='50px';ring.style.height='50px';ring.style.borderColor='rgba(110,181,255,0.6)'});
+    el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='rgba(110,181,255,0.4)'});
+  });
+})();
+
+// ===== NAV HIDE =====
+(function(){let l=0;window.addEventListener('scroll',()=>{const c=window.scrollY;document.querySelector('nav').classList.toggle('hidden',c>l&&c>80);l=c})})();
+
+// ===== HAMBURGER =====
+(function(){
+  const btn=document.querySelector('.hamburger'),menu=document.querySelector('.mobile-menu');
+  btn.addEventListener('click',()=>{btn.classList.toggle('active');menu.classList.toggle('open')});
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{btn.classList.remove('active');menu.classList.remove('open')}));
+})();
+
+// ===== REVEAL =====
+(function(){
+  const els=document.querySelectorAll('.reveal');
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:0.15});
+  els.forEach(el=>obs.observe(el));
+})();
+</script>
+</body>
+</html>
